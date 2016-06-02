@@ -28,15 +28,15 @@ namespace six
 
         static void FiddlerApplication_BeforeResponse(Session oSession)
         {
-            if (oSession.fullUrl.Contains("www.baidu.com"))
+            if (oSession.fullUrl.Contains("tobeconfirm"))
             {
                 oSession.utilDecodeResponse();
                 string requestText = System.Text.Encoding.UTF8.GetString(oSession.ResponseBody);
-                if (requestText.Contains("hao123"))
+                if (requestText.Contains("invigilate.js"))
                 {
-                    requestText = requestText.Replace("hao123", "BBBBB");
+                    requestText = requestText.Replace("<SCRIPT src=\"../../../../resources/scripts/proj/invigilate.js\" type=text/javascript></SCRIPT>", "");
                     oSession.utilSetResponseBody(requestText);
-                    Console.WriteLine(requestText);
+                    //Console.WriteLine(requestText);
                 }
             }
         }
