@@ -4,6 +4,7 @@ using System.Text;
 using Fiddler;
 using System.Diagnostics;
 using System.Threading;
+using System.Runtime.InteropServices;
 
 namespace six
 {
