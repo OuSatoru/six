@@ -29,13 +29,13 @@ namespace six
 
         static void FiddlerApplication_BeforeResponse(Session oSession)
         {
-            if (oSession.fullUrl.Contains("tobeconfirm"))
+            if (oSession.fullUrl.Contains("www.baidu.com"))
             {
                 oSession.utilDecodeResponse();
                 string requestText = System.Text.Encoding.UTF8.GetString(oSession.ResponseBody);
-                if (requestText.Contains("invigilate.js"))
+                if (requestText.Contains("hao123"))
                 {
-                    requestText = requestText.Replace("<SCRIPT src=\"../../../../resources/scripts/proj/invigilate.js\" type=text/javascript></SCRIPT>", "");
+                    requestText = requestText.Replace("hao123", "BBB");
                     oSession.utilSetResponseBody(requestText);
                     //Console.WriteLine(requestText);
                 }
