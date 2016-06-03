@@ -33,7 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FiddlerCore">
-      <HintPath>D:\Program Files (x86)\FiddlerCoreAPI\FiddlerCore.dll</HintPath>
+      <HintPath>..\..\..\..\Program Files\FiddlerCoreAPI\FiddlerCore.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
