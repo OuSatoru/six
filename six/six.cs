@@ -5,11 +5,13 @@ using Fiddler;
 using System.Diagnostics;
 using System.Threading;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace six
 {
     class six
     {
+        [STAThreadAttribute]
         static void Main(string[] args)
         {
             Fiddler.FiddlerApplication.BeforeRequest += new SessionStateHandler(FiddlerApplication_BeforeRequest);
@@ -40,6 +42,11 @@ namespace six
                     requestText = requestText.Replace("<script type=\"text/javascript\" src=\"../../../../resources/scripts/proj/invigilate.js\"></script>", "");
                     oSession.utilSetResponseBody(requestText);
                     Console.WriteLine(requestText);
+                }
+                if (requestText.StartsWith("[{"))
+                {
+                    string res = requestText;
+                    Clipboard.SetText(res);
                 }
             }
         }
