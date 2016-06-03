@@ -37,7 +37,7 @@ namespace six
                 Console.WriteLine(requestText);
                 if (requestText.Contains("invigilate.js"))
                 {
-                    requestText = requestText.Replace("<script type=\text/javascript\" src=\"../../../../resources/scripts/proj/invigilate.js\"></script>", "");
+                    requestText = requestText.Replace("<script type=\"text/javascript\" src=\"../../../../resources/scripts/proj/invigilate.js\"></script>", "");
                     oSession.utilSetResponseBody(requestText);
                     Console.WriteLine(requestText);
                 }
