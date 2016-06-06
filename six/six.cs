@@ -43,7 +43,7 @@ namespace six
                     oSession.utilSetResponseBody(requestText);
                     Console.WriteLine(requestText);
                 }
-                if (requestText.StartsWith("[{"))
+                if (requestText.StartsWith("[{\"id\":null"))
                 {
                     string res = requestText;
                     Clipboard.SetText(res);
