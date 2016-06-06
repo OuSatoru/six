@@ -48,6 +48,7 @@ namespace six
                     string res = requestText;
                     Clipboard.SetText(res);
                     oSession.utilSetResponseBody(requestText);
+                    Console.WriteLine("Catching question json: " + res);
                 }
             }
         }
