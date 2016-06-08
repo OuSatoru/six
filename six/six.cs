@@ -42,11 +42,11 @@ namespace six
                         Console.WriteLine("Catching question json: " + res);
                     }
                 }
-                Fiddler.FiddlerApplication.Startup(8877, FiddlerCoreStartupFlags.Default);
-                Console.ReadKey();
-                Fiddler.FiddlerApplication.Shutdown();
-                Thread.Sleep(500);
             };
+            Fiddler.FiddlerApplication.Startup(8877, FiddlerCoreStartupFlags.Default);
+            Console.ReadKey();
+            Fiddler.FiddlerApplication.Shutdown();
+            Thread.Sleep(500);
         }
     }
 }
