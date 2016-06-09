@@ -32,17 +32,18 @@ namespace six
                     if (requestText.Contains("invigilate.js"))
                     {
                         requestText = requestText.Replace("<script type=\"text/javascript\" src=\"../../../../resources/scripts/proj/invigilate.js\"></script>", "");
-                        oSession.utilSetResponseBody(requestText);
+                        //oSession.utilSetResponseBody(requestText);
                         Console.WriteLine("Changed to: " + requestText);
                     }
                     if (requestText.Contains("[{\"id\":null"))
                     {
                         Console.WriteLine("Catching question json...");
-                        oSession.utilSetResponseBody(requestText);
+                        //oSession.utilSetResponseBody(requestText);
                         //Clipboard.SetText(requestText);
                         Write(requestText);
                         Console.WriteLine("Done.");
                     }
+                    oSession.utilSetResponseBody(requestText);
                 }
             };
             CleanIE6();   //ie6 can't use
