@@ -34,7 +34,7 @@ namespace six
                         oSession.utilSetResponseBody(requestText);
                         Console.WriteLine("Changed to: " + requestText);
                     }
-                    if (requestText.StartsWith("[{\"id\":null"))
+                    if (requestText.Contains("[{\"id\":null"))
                     {
                         string res = requestText;
                         Clipboard.SetText(res);
@@ -43,7 +43,7 @@ namespace six
                     }
                 }
             };
-            Fiddler.FiddlerApplication.Startup(8877, FiddlerCoreStartupFlags.Default);
+            Fiddler.FiddlerApplication.Startup(7474, FiddlerCoreStartupFlags.Default);
             Console.ReadKey();
             Fiddler.FiddlerApplication.Shutdown();
             Thread.Sleep(500);
