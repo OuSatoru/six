@@ -7,12 +7,15 @@ using System.Threading;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.IO;
+using System.Net;
 
 namespace six
 {
     class six
     {
         //[STAThread]
+        public static string intime;
+        public static string outtime;
         static void Main(string[] args)
         {
             Fiddler.FiddlerApplication.BeforeRequest += delegate (Fiddler.Session oSession)
@@ -32,18 +35,39 @@ namespace six
                     if (requestText.Contains("invigilate.js"))
                     {
                         requestText = requestText.Replace("<script type=\"text/javascript\" src=\"../../../../resources/scripts/proj/invigilate.js\"></script>", "");
-                        //oSession.utilSetResponseBody(requestText);
+                        oSession.utilSetResponseBody(requestText);
                         Console.WriteLine("Changed to: " + requestText);
+                    }
+                    if (requestText.Contains("cheat_decrement()"))
+                    {
+                        requestText = requestText.Replace("cheat_decrement();", "");
+                        oSession.utilSetResponseBody(requestText);
+                    }
+                    if (requestText.Contains("cheat_check"))
+                    {
+                        requestText = requestText.Replace("cheat_check(a);", "");
+                        oSession.utilSetResponseBody(requestText);
                     }
                     if (requestText.Contains("[{\"id\":null"))
                     {
+                        intime = getTimeStamp();
                         Console.WriteLine("Catching question json...");
                         //oSession.utilSetResponseBody(requestText);
                         //Clipboard.SetText(requestText);
                         Write(requestText);
                         Console.WriteLine("Done.");
                     }
-                    oSession.utilSetResponseBody(requestText);
+                    if (requestText.Contains("\"ip\":null"))
+                    {
+                        outtime = getTimeStamp();
+                        requestText = requestText.Replace("\"ip\":null", "\"ip\":" + getIP());
+                        requestText = requestText.Replace("\"paperState\":\"1\"", "\"paperState\":\"2\"");
+                        requestText = requestText.Replace("\"inTime\":null", "\"inTime\":" + intime);
+                        requestText = requestText.Replace("\"outTime\":null", "\"outTime\":" + outtime);
+                        requestText = requestText.Replace("\"userDuration\":null", "\"userDuration\":" + duration(intime,outtime));
+                        oSession.utilSetResponseBody(requestText);
+                        Console.WriteLine("Changed to: " + requestText);
+                    }
                 }
             };
             CleanIE6();   //ie6 can't use
@@ -90,6 +114,30 @@ namespace six
             sw.WriteLine(str);
             sw.Close();
             fs.Close();
+        }
+        static string getIP()
+        {
+            string hostName = Dns.GetHostName();
+            IPHostEntry ipEntry = Dns.GetHostEntry(hostName);
+            for (int i = 0; i < ipEntry.AddressList.Length; i++)
+            {
+                if (ipEntry.AddressList[i].AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                {
+                    return ipEntry.AddressList[i].ToString();
+                }
+            }
+            return "";
+        }
+        static string getTimeStamp()
+        {
+            TimeSpan ts = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            return Convert.ToInt64(ts.TotalMilliseconds).ToString();
+        }
+        static string duration(string intime, string outtime)
+        {
+            long iintime = long.Parse(intime);
+            long iouttime = long.Parse(outtime);
+            return (((iouttime - iintime) / 1000).ToString());
         }
     }
 }
