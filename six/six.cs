@@ -21,7 +21,7 @@ namespace six
             Fiddler.FiddlerApplication.BeforeRequest += delegate (Fiddler.Session oSession)
             {
                 Console.WriteLine("Before request for:\t" + oSession.fullUrl);
-                Debug.WriteLine(oSession.RequestBody);
+                //Debug.WriteLine(oSession.RequestBody);
                 oSession.bBufferResponse = true;
             };
             Fiddler.FiddlerApplication.BeforeResponse += delegate (Fiddler.Session oSession)
@@ -31,12 +31,12 @@ namespace six
                     oSession.utilDecodeResponse();
                     Console.WriteLine("Before response for:\t{0} response code:\t{1}", oSession.fullUrl, oSession.responseCode);
                     string requestText = oSession.GetResponseBodyAsString();
-                    Console.WriteLine(requestText);
+                    //Console.WriteLine(requestText);
                     if (requestText.Contains("invigilate.js"))
                     {
                         requestText = requestText.Replace("<script type=\"text/javascript\" src=\"../../../../resources/scripts/proj/invigilate.js\"></script>", "");
                         oSession.utilSetResponseBody(requestText);
-                        Console.WriteLine("Changed to: " + requestText);
+                        //Console.WriteLine("Changed to: " + requestText);
                     }
                     if (requestText.Contains("cheat_decrement()"))
                     {
@@ -52,9 +52,9 @@ namespace six
                     {
                         intime = getTimeStamp();
                         Console.WriteLine("Catching question json...");
-                        //oSession.utilSetResponseBody(requestText);
-                        //Clipboard.SetText(requestText);
                         Write(requestText);
+                        KillProcess("showsix");
+                        Process.Start("showsix.exe");
                         Console.WriteLine("Done.");
                     }
                     if (requestText.Contains("\"ip\":null"))
@@ -66,7 +66,7 @@ namespace six
                         requestText = requestText.Replace("\"outTime\":null", "\"outTime\":" + outtime);
                         requestText = requestText.Replace("\"userDuration\":null", "\"userDuration\":" + duration(intime,outtime));
                         oSession.utilSetResponseBody(requestText);
-                        Console.WriteLine("Changed to: " + requestText);
+                        //Console.WriteLine("Changed to: " + requestText);
                     }
                 }
             };
@@ -138,6 +138,19 @@ namespace six
             long iintime = long.Parse(intime);
             long iouttime = long.Parse(outtime);
             return (((iouttime - iintime) / 1000).ToString());
+        }
+        static void KillProcess(string processName)
+        {
+            Process[] myproc = Process.GetProcesses();
+            foreach (Process item in myproc)
+            {
+                if (item.ProcessName == processName)
+                {
+                    item.Kill();
+                    item.Close();
+                }
+            }
+
         }
     }
 }
